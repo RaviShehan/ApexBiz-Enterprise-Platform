@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  apexbiz-postgres:
+    image: postgres:16
+    container_name: apexbiz-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: apexbiz_user
+      POSTGRES_PASSWORD: apexbiz_password
+      POSTGRES_DB: apexbiz_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - apexbiz_postgres_data:/var/lib/postgresql/data
+
+  apexbiz-pgadmin:
+    image: dpage/pgadmin4
+    container_name: apexbiz-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@apexbiz.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - apexbiz-postgres
+
+volumes:
+  apexbiz_postgres_data:
