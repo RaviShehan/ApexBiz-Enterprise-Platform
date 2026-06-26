@@ -1,0 +1,42 @@
+@"
+# Node / NestJS / React
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+.docker/
+
+# PostgreSQL local files
+*.sql.backup
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Kubernetes temporary files
+*.tmp
+
+# Google Cloud local config
+.gcloud/
+"@ | Set-Content .gitignore
