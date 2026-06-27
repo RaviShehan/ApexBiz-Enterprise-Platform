@@ -54,22 +54,53 @@ model Business {
   updatedAt          DateTime       @updatedAt
 
   branches Branch[]
+  wallets  Wallet[]
 
   @@map("businesses")
 }
 
 model Branch {
-  id          String       @id @default(uuid())
-  businessId  String
-  name        String
-  code        String       @unique
-  address     String?
-  phone       String?
-  status      BranchStatus @default(ACTIVE)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id         String       @id @default(uuid())
+  businessId String
+  name       String
+  code       String       @unique
+  address    String?
+  phone      String?
+  status     BranchStatus @default(ACTIVE)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 
   business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  wallets  Wallet[]
 
   @@map("branches")
+}
+
+enum WalletType {
+  BUSINESS
+  BRANCH
+}
+
+enum WalletStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+model Wallet {
+  id           String       @id @default(uuid())
+  walletCode   String       @unique
+  type         WalletType
+  businessId   String?
+  branchId     String?
+  balanceCents Int          @default(0)
+  currency     String       @default("LKR")
+  status       WalletStatus @default(ACTIVE)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  business Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  branch   Branch?   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
 }

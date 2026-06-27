@@ -7,6 +7,7 @@ import { BranchesModule } from './branches/branches.module';
 import { BusinessesModule } from './businesses/businesses.module';
 import { DatabaseModule } from './database/database.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { WalletsModule } from './wallets/wallets.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
     AuthModule,
     BusinessesModule,
     BranchesModule,
+    WalletsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
