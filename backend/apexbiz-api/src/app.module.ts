@@ -8,6 +8,7 @@ import { BusinessesModule } from './businesses/businesses.module';
 import { DatabaseModule } from './database/database.module';
 import { LedgerModule } from './ledger/ledger.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { TransactionsModule } from './transactions/transactions.module';
 import { WalletsModule } from './wallets/wallets.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { WalletsModule } from './wallets/wallets.module';
     BranchesModule,
     WalletsModule,
     LedgerModule,
+    TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

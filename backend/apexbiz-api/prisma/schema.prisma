@@ -99,9 +99,11 @@ model Wallet {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  business       Business?       @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  branch         Branch?         @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  ledgerAccounts LedgerAccount[]
+  business                Business?           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  branch                  Branch?             @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  ledgerAccounts          LedgerAccount[]
+  sourceTransactions      WalletTransaction[] @relation("SourceWalletTransactions")
+  destinationTransactions WalletTransaction[] @relation("DestinationWalletTransactions")
 
   @@map("wallets")
 }
@@ -144,7 +146,8 @@ model LedgerTransaction {
   createdAt   DateTime                @default(now())
   updatedAt   DateTime                @updatedAt
 
-  entries LedgerEntry[]
+  entries           LedgerEntry[]
+  walletTransaction WalletTransaction?
 
   @@map("ledger_transactions")
 }
@@ -162,4 +165,36 @@ model LedgerEntry {
   account     LedgerAccount     @relation(fields: [accountId], references: [id], onDelete: Restrict)
 
   @@map("ledger_entries")
+}
+
+enum WalletTransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+}
+
+enum WalletTransactionStatus {
+  COMPLETED
+  FAILED
+}
+
+model WalletTransaction {
+  id                  String                  @id @default(uuid())
+  reference           String                  @unique
+  type                WalletTransactionType
+  amountCents         Int
+  currency            String                  @default("LKR")
+  sourceWalletId      String?
+  destinationWalletId String?
+  ledgerTransactionId String?                 @unique
+  description         String?
+  status              WalletTransactionStatus @default(COMPLETED)
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+
+  sourceWallet      Wallet?            @relation("SourceWalletTransactions", fields: [sourceWalletId], references: [id], onDelete: SetNull)
+  destinationWallet Wallet?            @relation("DestinationWalletTransactions", fields: [destinationWalletId], references: [id], onDelete: SetNull)
+  ledgerTransaction LedgerTransaction? @relation(fields: [ledgerTransactionId], references: [id], onDelete: SetNull)
+
+  @@map("wallet_transactions")
 }
