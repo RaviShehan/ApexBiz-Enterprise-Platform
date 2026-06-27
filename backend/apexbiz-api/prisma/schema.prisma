@@ -99,8 +99,67 @@ model Wallet {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  business Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  branch   Branch?   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  business       Business?       @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  branch         Branch?         @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  ledgerAccounts LedgerAccount[]
 
   @@map("wallets")
+}
+
+enum LedgerAccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum LedgerTransactionStatus {
+  POSTED
+  VOIDED
+}
+
+model LedgerAccount {
+  id          String            @id @default(uuid())
+  code        String            @unique
+  name        String
+  type        LedgerAccountType
+  walletId    String?
+  description String?
+  isActive    Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  wallet  Wallet?       @relation(fields: [walletId], references: [id], onDelete: SetNull)
+  entries LedgerEntry[]
+
+  @@map("ledger_accounts")
+}
+
+model LedgerTransaction {
+  id          String                  @id @default(uuid())
+  reference   String                  @unique
+  description String
+  status      LedgerTransactionStatus @default(POSTED)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  entries LedgerEntry[]
+
+  @@map("ledger_transactions")
+}
+
+model LedgerEntry {
+  id            String   @id @default(uuid())
+  transactionId String
+  accountId     String
+  debitCents    Int      @default(0)
+  creditCents   Int      @default(0)
+  memo          String?
+  createdAt     DateTime @default(now())
+
+  transaction LedgerTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  account     LedgerAccount     @relation(fields: [accountId], references: [id], onDelete: Restrict)
+
+  @@map("ledger_entries")
 }

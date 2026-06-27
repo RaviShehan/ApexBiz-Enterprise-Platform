@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { BranchesModule } from './branches/branches.module';
 import { BusinessesModule } from './businesses/businesses.module';
 import { DatabaseModule } from './database/database.module';
+import { LedgerModule } from './ledger/ledger.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { WalletsModule } from './wallets/wallets.module';
 
@@ -20,6 +21,7 @@ import { WalletsModule } from './wallets/wallets.module';
     BusinessesModule,
     BranchesModule,
     WalletsModule,
+    LedgerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
