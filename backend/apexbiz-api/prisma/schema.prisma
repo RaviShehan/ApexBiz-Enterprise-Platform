@@ -30,3 +30,46 @@ model User {
 
   @@map("users")
 }
+
+enum BusinessStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum BranchStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Business {
+  id                 String         @id @default(uuid())
+  name               String         @unique
+  registrationNumber String?
+  ownerName          String?
+  contactEmail       String?
+  contactPhone       String?
+  address            String?
+  status             BusinessStatus @default(ACTIVE)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  branches Branch[]
+
+  @@map("businesses")
+}
+
+model Branch {
+  id          String       @id @default(uuid())
+  businessId  String
+  name        String
+  code        String       @unique
+  address     String?
+  phone       String?
+  status      BranchStatus @default(ACTIVE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@map("branches")
+}
