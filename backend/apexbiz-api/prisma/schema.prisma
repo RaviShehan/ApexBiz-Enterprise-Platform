@@ -28,6 +28,8 @@ model User {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
+  posSales PosSale[]
+
   @@map("users")
 }
 
@@ -55,6 +57,8 @@ model Business {
 
   branches Branch[]
   wallets  Wallet[]
+  products Product[]
+  posSales PosSale[]
 
   @@map("businesses")
 }
@@ -70,8 +74,9 @@ model Branch {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
-  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  business Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
   wallets  Wallet[]
+  posSales PosSale[]
 
   @@map("branches")
 }
@@ -104,6 +109,7 @@ model Wallet {
   ledgerAccounts          LedgerAccount[]
   sourceTransactions      WalletTransaction[] @relation("SourceWalletTransactions")
   destinationTransactions WalletTransaction[] @relation("DestinationWalletTransactions")
+  posSales                PosSale[]
 
   @@map("wallets")
 }
@@ -197,4 +203,81 @@ model WalletTransaction {
   ledgerTransaction LedgerTransaction? @relation(fields: [ledgerTransactionId], references: [id], onDelete: SetNull)
 
   @@map("wallet_transactions")
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PosSaleStatus {
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  WALLET
+}
+
+model Product {
+  id                String        @id @default(uuid())
+  name              String
+  sku               String        @unique
+  barcode           String?       @unique
+  description       String?
+  sellingPriceCents Int
+  costPriceCents    Int           @default(0)
+  stockQuantity     Int           @default(0)
+  reorderLevel      Int           @default(0)
+  status            ProductStatus @default(ACTIVE)
+  businessId        String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  business  Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  saleItems PosSaleItem[]
+
+  @@map("products")
+}
+
+model PosSale {
+  id               String        @id @default(uuid())
+  saleNumber       String        @unique
+  businessId       String
+  branchId         String
+  cashierId        String
+  walletId         String?
+  paymentMethod    PaymentMethod
+  subtotalCents    Int
+  discountCents    Int           @default(0)
+  taxCents         Int           @default(0)
+  totalAmountCents Int
+  status           PosSaleStatus @default(COMPLETED)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  business Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  branch   Branch        @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  cashier  User          @relation(fields: [cashierId], references: [id], onDelete: Cascade)
+  wallet   Wallet?       @relation(fields: [walletId], references: [id], onDelete: SetNull)
+  items    PosSaleItem[]
+
+  @@map("pos_sales")
+}
+
+model PosSaleItem {
+  id             String   @id @default(uuid())
+  saleId         String
+  productId      String
+  quantity       Int
+  unitPriceCents Int
+  lineTotalCents Int
+  createdAt      DateTime @default(now())
+
+  sale    PosSale @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("pos_sale_items")
 }
