@@ -3,21 +3,35 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 import { User, UserRole } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
-import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 type SafeUser = Omit<User, 'passwordHash'>;
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   private removePassword(user: User): SafeUser {
     const { passwordHash, ...safeUser } = user;
     return safeUser;
+  }
+
+  private createAccessToken(user: SafeUser): string {
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      role: user.role,
+    };
+
+    return this.jwtService.sign(payload);
   }
 
   async register(registerDto: RegisterDto) {
@@ -42,9 +56,12 @@ export class AuthService {
       },
     });
 
+    const safeUser = this.removePassword(user);
+
     return {
       message: 'User registered successfully',
-      user: this.removePassword(user),
+      user: safeUser,
+      accessToken: this.createAccessToken(safeUser),
     };
   }
 
@@ -68,9 +85,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid username or password');
     }
 
+    const safeUser = this.removePassword(user);
+
     return {
       message: 'Login successful',
-      user: this.removePassword(user),
+      user: safeUser,
+      accessToken: this.createAccessToken(safeUser),
     };
   }
 }
