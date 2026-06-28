@@ -134,3 +134,14 @@ test("production docker setup exists", () => {
   assert.match(composeFile, /ml-service/);
   assert.match(composeFile, /nginx/);
 });
+
+
+test("database production readiness exists", () => {
+  assert.equal(fileExists("docs/DATABASE_PRODUCTION_READINESS.md"), true);
+  assert.equal(fileExists("scripts/db/backup-postgres.ps1"), true);
+  assert.equal(fileExists("scripts/db/restore-postgres.ps1"), true);
+  assert.equal(fileExists("scripts/db/README.md"), true);
+
+  const schema = readFile("backend/apexbiz-api/prisma/schema.prisma");
+  assert.match(schema, /@@index/);
+});

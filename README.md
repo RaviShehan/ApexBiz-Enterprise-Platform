@@ -529,3 +529,19 @@ Docker documentation:
 Production compose file:
 
 - docker-compose.prod.yml
+
+
+## Database Production Readiness
+
+ApexBiz includes production database readiness improvements:
+
+- Prisma production indexes
+- PostgreSQL backup script
+- PostgreSQL restore script
+- database production guide
+- migration readiness documentation
+
+Database documentation:
+
+- docs/DATABASE_PRODUCTION_READINESS.md
+- scripts/db/README.md
