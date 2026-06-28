@@ -220,3 +220,55 @@ Developed as a full-stack software engineering portfolio project.
 
 - docs/PENETRATION_TESTING_REPORT.md
 - docs/PENTEST_CHECKLIST.md
+
+## Software Architect Highlights
+
+ApexBiz is designed as a modular enterprise platform, not only a simple CRUD application.
+
+Architecture-level features include:
+
+- Modular NestJS backend architecture
+- Next.js frontend dashboard
+- PostgreSQL relational database design
+- Prisma ORM database access layer
+- Python FastAPI ML service
+- Backend integration with ML service
+- Cybersecurity features
+- Blockchain-style audit hash chain
+- Security audit dashboard
+- ML Insights dashboard
+- HTTPS deployment preparation
+- OWASP security testing report
+- Penetration testing report
+
+## Data Science / ML Features
+
+The project includes a separate Python FastAPI ML service for business intelligence.
+
+ML features include:
+
+- Sales forecasting
+- Best-selling product analysis
+- Slow-moving product analysis
+- Low-stock risk prediction
+- Sales anomaly detection
+
+## Cybersecurity Features
+
+Cybersecurity features include:
+
+- Bcrypt password hashing
+- JWT authentication
+- Role-based access control
+- Rate limiting
+- Security headers
+- Email verification
+- Two-factor OTP
+- Refresh token rotation
+- Audit logging
+- Blockchain-style audit hash chain
+- Security audit dashboard
+
+## Additional Architect Documentation
+
+- docs/SOFTWARE_ARCHITECT_PORTFOLIO.md
