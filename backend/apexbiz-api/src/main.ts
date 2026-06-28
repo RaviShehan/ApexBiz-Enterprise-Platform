@@ -1,9 +1,13 @@
+import { rateLimitMiddleware } from './security/rate-limit.middleware';
+import { securityHeadersMiddleware } from './security/security-headers.middleware';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(securityHeadersMiddleware);
+  app.use(rateLimitMiddleware);
 
   app.enableCors({
     origin: true,
