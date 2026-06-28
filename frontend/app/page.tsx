@@ -3,6 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { SectionCard } from '../components/SectionCard';
 import { StatCard } from '../components/StatCard';
+import { ProductsTable } from '../components/ProductsTable';
+import { InventoryMovementsTable } from '../components/InventoryMovementsTable';
+import { PosSalesTable } from '../components/PosSalesTable';
 import { CreateProductForm } from '../components/CreateProductForm';
 import { UpdateProductForm } from '../components/UpdateProductForm';
 import { InventoryActionForm } from '../components/InventoryActionForm';
@@ -243,30 +246,7 @@ export default function Home() {
                 }}
               />
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="text-slate-400">
-                    <tr>
-                      <th className="py-3">Name</th>
-                      <th>SKU</th>
-                      <th>Price</th>
-                      <th>Stock</th>
-                      <th>Reorder Level</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dashboardData.products.map((product) => (
-                      <tr key={product.id} className="border-t border-slate-800">
-                        <td className="py-3 font-semibold">{product.name}</td>
-                        <td>{product.sku}</td>
-                        <td>{formatMoney(product.sellingPriceCents)}</td>
-                        <td>{product.stockQuantity}</td>
-                        <td>{product.reorderLevel}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                            <ProductsTable products={dashboardData.products} />
             </SectionCard>
           )}
 
@@ -285,26 +265,7 @@ export default function Home() {
                 />
               )}
 
-              <div className="space-y-3">
-                {dashboardData.posSales.map((sale) => (
-                  <div
-                    key={sale.id}
-                    className="rounded-xl border border-slate-800 bg-slate-950 p-4"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="font-semibold">{sale.saleNumber}</p>
-                        <p className="text-sm text-slate-400">
-                          Payment: {sale.paymentMethod} | Items: {sale.items?.length ?? 0}
-                        </p>
-                      </div>
-                      <p className="font-bold text-cyan-300">
-                        {formatMoney(sale.totalAmountCents)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <PosSalesTable sales={dashboardData.posSales} />
             </SectionCard>
           )}
 
@@ -324,27 +285,7 @@ export default function Home() {
               )}
 
               <div className="space-y-3">
-                {dashboardData.inventoryMovements.map((movement) => (
-                  <div
-                    key={movement.id}
-                    className="rounded-xl border border-slate-800 bg-slate-950 p-4"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="font-semibold">{movement.reference}</p>
-                        <p className="text-sm text-slate-400">
-                          {movement.product?.name} | {movement.reason}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">{movement.type}</p>
-                        <p className="text-sm text-slate-400">
-                          {movement.stockBefore} ? {movement.stockAfter}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              <InventoryMovementsTable movements={dashboardData.inventoryMovements} />
               </div>
             </SectionCard>
           )}
@@ -476,6 +417,12 @@ export default function Home() {
     </main>
   );
 }
+
+
+
+
+
+
 
 
 
