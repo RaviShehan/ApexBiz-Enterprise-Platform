@@ -212,3 +212,8 @@ Detailed documentation is available in the `docs` folder:
 ## Author
 
 Developed as a full-stack software engineering portfolio project.
+
+## Security Documentation
+
+- docs/OWASP_SECURITY_TESTING_REPORT.md
+- docs/SECURITY_TEST_CASES.md
