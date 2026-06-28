@@ -1,0 +1,12 @@
+{
+  "eventType": "ml.insights_requested",
+  "version": "1.0",
+  "description": "Published when ML insights are requested or refreshed.",
+  "payload": {
+    "businessId": "string",
+    "requestedByUserId": "string",
+    "productsAnalyzed": "number",
+    "salesRecordsAnalyzed": "number",
+    "requestedAt": "ISO-8601 datetime"
+  }
+}

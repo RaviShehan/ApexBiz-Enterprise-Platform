@@ -327,3 +327,17 @@ Additional software architect-level documentation:
 - docs/MULTI_TENANT_DESIGN.md
 - docs/ARCHITECTURE_TRADEOFFS.md
 - docs/NON_FUNCTIONAL_REQUIREMENTS.md
+
+## Event-Driven Architecture
+
+ApexBiz includes event-driven architecture documentation and event contract examples for future RabbitMQ or Kafka integration.
+
+This shows how the system can evolve from a modular monolith into an asynchronous enterprise architecture.
+
+Event-driven documents:
+
+- docs/EVENT_DRIVEN_ARCHITECTURE.md
+- docs/events/pos.sale_created.json
+- docs/events/inventory.stock_changed.json
+- docs/events/audit.log_created.json
+- docs/events/ml.insights_requested.json

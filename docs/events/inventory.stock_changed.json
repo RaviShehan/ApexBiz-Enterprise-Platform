@@ -1,0 +1,14 @@
+{
+  "eventType": "inventory.stock_changed",
+  "version": "1.0",
+  "description": "Published when product stock changes.",
+  "payload": {
+    "productId": "string",
+    "businessId": "string",
+    "movementType": "STOCK_IN | STOCK_OUT | ADJUSTMENT | POS_SALE",
+    "quantityChanged": "number",
+    "newStockQuantity": "number",
+    "reason": "string",
+    "createdAt": "ISO-8601 datetime"
+  }
+}

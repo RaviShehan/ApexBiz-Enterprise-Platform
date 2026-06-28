@@ -1,0 +1,22 @@
+{
+  "eventType": "pos.sale_created",
+  "version": "1.0",
+  "description": "Published when a POS sale is created.",
+  "payload": {
+    "saleId": "string",
+    "businessId": "string",
+    "branchId": "string",
+    "cashierUserId": "string",
+    "totalAmount": "number",
+    "currency": "LKR",
+    "items": [
+      {
+        "productId": "string",
+        "quantity": "number",
+        "unitPrice": "number",
+        "lineTotal": "number"
+      }
+    ],
+    "createdAt": "ISO-8601 datetime"
+  }
+}

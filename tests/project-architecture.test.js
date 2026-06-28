@@ -90,3 +90,11 @@ test("security documentation exists", () => {
   assert.equal(fileExists("docs/PENETRATION_TESTING_REPORT.md"), true);
   assert.equal(fileExists("docs/PRODUCTION_SECURITY_CHECKLIST.md"), true);
 });
+
+test("event-driven architecture docs exist", () => {
+  assert.equal(fileExists("docs/EVENT_DRIVEN_ARCHITECTURE.md"), true);
+  assert.equal(fileExists("docs/events/pos.sale_created.json"), true);
+  assert.equal(fileExists("docs/events/inventory.stock_changed.json"), true);
+  assert.equal(fileExists("docs/events/audit.log_created.json"), true);
+  assert.equal(fileExists("docs/events/ml.insights_requested.json"), true);
+});

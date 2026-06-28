@@ -1,0 +1,15 @@
+{
+  "eventType": "audit.log_created",
+  "version": "1.0",
+  "description": "Published when an audit log entry is created.",
+  "payload": {
+    "auditLogId": "string",
+    "userId": "string",
+    "action": "string",
+    "entityType": "string",
+    "entityId": "string",
+    "previousHash": "string",
+    "currentHash": "string",
+    "createdAt": "ISO-8601 datetime"
+  }
+}
