@@ -1,3 +1,4 @@
+import { EmailVerificationModule } from './email-verification/email-verification.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -17,7 +18,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { AccountingModule } from './accounting/accounting.module';
 
 @Module({
-  imports: [AuditLogsModule, 
+  imports: [EmailVerificationModule, AuditLogsModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -38,3 +39,4 @@ import { AccountingModule } from './accounting/accounting.module';
   providers: [AppService],
 })
 export class AppModule {}
+
