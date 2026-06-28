@@ -19,6 +19,11 @@ enum UserStatus {
 }
 
 model User {
+  twoFactorEnabled        Boolean   @default(false)
+  twoFactorOtpHash        String?
+  twoFactorOtpExpiresAt   DateTime?
+  twoFactorLastVerifiedAt DateTime?
+
   email                           String?   @unique
   emailVerified                   Boolean   @default(false)
   emailVerificationTokenHash      String?
