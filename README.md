@@ -341,3 +341,9 @@ Event-driven documents:
 - docs/events/inventory.stock_changed.json
 - docs/events/audit.log_created.json
 - docs/events/ml.insights_requested.json
+
+## Software Architect Interview Guide
+
+Final interview preparation guide:
+
+- docs/SOFTWARE_ARCHITECT_INTERVIEW_GUIDE.md
