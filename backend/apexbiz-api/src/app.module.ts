@@ -1,3 +1,4 @@
+import { MlInsightsModule } from './ml-insights/ml-insights.module';
 import { RefreshTokensModule } from './refresh-tokens/refresh-tokens.module';
 import { TwoFactorModule } from './two-factor/two-factor.module';
 import { EmailVerificationModule } from './email-verification/email-verification.module';
@@ -20,7 +21,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { AccountingModule } from './accounting/accounting.module';
 
 @Module({
-  imports: [RefreshTokensModule, TwoFactorModule, EmailVerificationModule, AuditLogsModule, 
+  imports: [MlInsightsModule, RefreshTokensModule, TwoFactorModule, EmailVerificationModule, AuditLogsModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -41,6 +42,7 @@ import { AccountingModule } from './accounting/accounting.module';
   providers: [AppService],
 })
 export class AppModule {}
+
 
 
 
