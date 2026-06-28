@@ -545,3 +545,19 @@ Database documentation:
 
 - docs/DATABASE_PRODUCTION_READINESS.md
 - scripts/db/README.md
+
+
+## Authentication Hardening
+
+ApexBiz includes production-style authentication hardening:
+
+- SMTP email service support
+- forgot password request API
+- password reset confirmation API
+- hashed password reset tokens
+- password reset token expiry
+- safe response to prevent account enumeration
+
+Documentation:
+
+- docs/AUTHENTICATION_HARDENING.md

@@ -145,3 +145,22 @@ test("database production readiness exists", () => {
   const schema = readFile("backend/apexbiz-api/prisma/schema.prisma");
   assert.match(schema, /@@index/);
 });
+
+
+test("authentication hardening exists", () => {
+  assert.equal(fileExists("backend/apexbiz-api/src/email/email.service.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/email/email.module.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/password-reset/password-reset.controller.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/password-reset/password-reset.service.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/password-reset/password-reset.module.ts"), true);
+  assert.equal(fileExists("docs/AUTHENTICATION_HARDENING.md"), true);
+
+  const schema = readFile("backend/apexbiz-api/prisma/schema.prisma");
+  assert.match(schema, /passwordResetTokenHash/);
+  assert.match(schema, /passwordResetTokenExpiresAt/);
+
+  const service = readFile("backend/apexbiz-api/src/password-reset/password-reset.service.ts");
+  assert.match(service, /randomBytes/);
+  assert.match(service, /sha256/);
+  assert.match(service, /bcrypt/);
+});

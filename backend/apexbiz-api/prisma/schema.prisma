@@ -38,9 +38,12 @@ model User {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
-  posSales           PosSale[]
-  inventoryMovements InventoryMovement[]
+  posSales                    PosSale[]
+  inventoryMovements          InventoryMovement[]
+  passwordResetTokenHash      String?
+  passwordResetTokenExpiresAt DateTime?
 
+  @@index([passwordResetTokenHash])
   @@map("users")
 }
 
