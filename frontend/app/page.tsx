@@ -147,6 +147,13 @@ export default function Home() {
   if (user && dashboardData) {
     return (
       <main className="min-h-screen bg-slate-950 text-slate-100">
+          {/* FORCE_VISIBLE_ML_CONTENT */}
+          {activeSection === 'ml-insights' && (
+            <SectionCard title="Data Science / ML Insights">
+              <MlInsightsDashboard token={token} />
+            </SectionCard>
+          )}
+
         <header className="border-b border-slate-800 bg-slate-900">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
             <div>
@@ -198,7 +205,32 @@ export default function Home() {
             {navButton('Accounting', 'accounting')}
           </div>
 
-          {activeSection === 'overview' && (
+          
+          {/* EXTRA_SECURITY_ML_TABS */}
+          <div className="mt-4 flex flex-wrap gap-3">
+            <button
+              onClick={() => setActiveSection('security')}
+              className={`rounded-xl px-5 py-3 font-bold ${
+                activeSection === 'security'
+                  ? 'bg-cyan-500 text-slate-950'
+                  : 'bg-slate-800 text-white hover:bg-slate-700'
+              }`}
+            >
+              Security
+            </button>
+
+            <button
+              onClick={() => setActiveSection('ml-insights')}
+              className={`rounded-xl px-5 py-3 font-bold ${
+                activeSection === 'ml-insights'
+                  ? 'bg-cyan-500 text-slate-950'
+                  : 'bg-slate-800 text-white hover:bg-slate-700'
+              }`}
+            >
+              ML Insights
+            </button>
+          </div>
+{activeSection === 'overview' && (
             <div className="space-y-8">
               <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                 <StatCard title="Businesses" value={dashboardData.businesses.length} />
@@ -427,9 +459,26 @@ export default function Home() {
               <MlInsightsDashboard token={token} />
             </SectionCard>
           )}
+
+          {/* FORCE_ML_INSIGHTS_SECTION */}
+          {activeSection === 'ml-insights' && (
+            <SectionCard title="Data Science / ML Insights">
+              <MlInsightsDashboard token={token} />
+            </SectionCard>
+          )}
+
+          {/* FORCE_SECURITY_SECTION */}
+          {activeSection === 'security' && (
+            <SectionCard title="Security Audit Logs">
+              <AuditLogsDashboard token={token} />
+            </SectionCard>
+          )}
 </main>
   );
 }
+
+
+
 
 
 
