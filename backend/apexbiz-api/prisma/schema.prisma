@@ -316,3 +316,18 @@ model InventoryMovement {
 
   @@map("inventory_movements")
 }
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  method     String?
+  path       String?
+  ipAddress  String?
+  userAgent  String?
+  statusCode Int?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+}

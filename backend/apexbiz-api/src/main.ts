@@ -1,3 +1,4 @@
+import { auditLogMiddleware } from './audit-logs/audit-log.middleware';
 import { rateLimitMiddleware } from './security/rate-limit.middleware';
 import { securityHeadersMiddleware } from './security/security-headers.middleware';
 import { ValidationPipe } from '@nestjs/common';
@@ -8,6 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(securityHeadersMiddleware);
   app.use(rateLimitMiddleware);
+  app.use(auditLogMiddleware);
 
   app.enableCors({
     origin: true,
@@ -29,3 +31,4 @@ async function bootstrap() {
 }
 
 bootstrap();
+
