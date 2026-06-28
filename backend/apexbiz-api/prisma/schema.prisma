@@ -343,3 +343,13 @@ model AuditLog {
   currentHash  String?
   createdAt    DateTime @default(now())
 }
+
+model RefreshToken {
+  id         String    @id @default(uuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  replacedBy String?
+  createdAt  DateTime  @default(now())
+}

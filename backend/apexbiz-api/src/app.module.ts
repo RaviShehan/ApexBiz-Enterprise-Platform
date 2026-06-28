@@ -1,3 +1,4 @@
+import { RefreshTokensModule } from './refresh-tokens/refresh-tokens.module';
 import { TwoFactorModule } from './two-factor/two-factor.module';
 import { EmailVerificationModule } from './email-verification/email-verification.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
@@ -19,7 +20,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { AccountingModule } from './accounting/accounting.module';
 
 @Module({
-  imports: [TwoFactorModule, EmailVerificationModule, AuditLogsModule, 
+  imports: [RefreshTokensModule, TwoFactorModule, EmailVerificationModule, AuditLogsModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -40,6 +41,7 @@ import { AccountingModule } from './accounting/accounting.module';
   providers: [AppService],
 })
 export class AppModule {}
+
 
 
 
