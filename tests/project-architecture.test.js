@@ -98,3 +98,16 @@ test("event-driven architecture docs exist", () => {
   assert.equal(fileExists("docs/events/audit.log_created.json"), true);
   assert.equal(fileExists("docs/events/ml.insights_requested.json"), true);
 });
+
+
+test("production environment validation exists", () => {
+  assert.equal(fileExists("backend/apexbiz-api/src/config/env.validation.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/.env.example"), true);
+  assert.equal(fileExists("docs/PRODUCTION_ENVIRONMENT.md"), true);
+
+  const envValidation = readFile("backend/apexbiz-api/src/config/env.validation.ts");
+  assert.match(envValidation, /validateEnvironment/);
+  assert.match(envValidation, /DATABASE_URL/);
+  assert.match(envValidation, /JWT_SECRET/);
+  assert.match(envValidation, /REFRESH_TOKEN_SECRET/);
+});

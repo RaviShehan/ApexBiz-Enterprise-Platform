@@ -489,3 +489,22 @@ Final interview preparation guide:
 ## Final Interview Q&A Bank
 
 - docs/FINAL_INTERVIEW_QA_BANK.md
+
+
+## Production Environment Validation
+
+The backend includes production environment validation.
+
+It checks required production variables such as:
+
+- DATABASE_URL
+- JWT_SECRET
+- REFRESH_TOKEN_SECRET
+- ML_SERVICE_URL
+- FRONTEND_URL
+
+In production, the backend fails safely if required environment variables are missing, weak, invalid, or unsafe.
+
+Documentation:
+
+- docs/PRODUCTION_ENVIRONMENT.md
