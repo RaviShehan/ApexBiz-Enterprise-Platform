@@ -12,6 +12,11 @@ export class AuditLogsController {
     return this.auditLogsService.findAll(Number(limit) || 100);
   }
 
+  @Get('verify-chain')
+  verifyHashChain() {
+    return this.auditLogsService.verifyHashChain();
+  }
+
   @Get('entity')
   findByEntity(
     @Query('entityType') entityType: string,
@@ -20,4 +25,5 @@ export class AuditLogsController {
     return this.auditLogsService.findByEntity(entityType, entityId);
   }
 }
+
 
