@@ -485,3 +485,7 @@ Final interview preparation guide:
 
 - docs/SOFTWARE_ARCHITECT_INTERVIEW_GUIDE.md
 
+
+## Final Interview Q&A Bank
+
+- docs/FINAL_INTERVIEW_QA_BANK.md
