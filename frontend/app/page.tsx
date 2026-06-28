@@ -1,65 +1,169 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { apiRequest } from '../lib/api';
+
+type UserResponse = {
+  message?: string;
+  user?: {
+    id: string;
+    username: string;
+    role: string;
+    status: string;
+  };
+};
 
 export default function Home() {
+  const [username, setUsername] = useState('rbacadmin');
+  const [password, setPassword] = useState('admin123');
+  const [token, setToken] = useState('');
+  const [userData, setUserData] = useState<UserResponse | null>(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const loginResponse = await apiRequest('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const accessToken = loginResponse.accessToken;
+      setToken(accessToken);
+
+      const meResponse = await apiRequest('/auth/me', {}, accessToken);
+      setUserData(meResponse);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed');
+      setUserData(null);
+      setToken('');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-slate-950 text-white">
+      <section className="mx-auto flex min-h-screen max-w-6xl items-center justify-center px-6 py-12">
+        <div className="grid w-full gap-8 lg:grid-cols-2">
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 shadow-2xl">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+              ApexBiz Enterprise Platform
+            </p>
+
+            <h1 className="mb-4 text-4xl font-bold leading-tight">
+              Enterprise business management dashboard
+            </h1>
+
+            <p className="mb-8 text-slate-300">
+              Manage businesses, branches, wallets, POS sales, inventory,
+              double-entry ledger records, and accounting reports from one
+              secure dashboard.
+            </p>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl bg-slate-800 p-5">
+                <p className="text-2xl font-bold text-cyan-300">14</p>
+                <p className="text-sm text-slate-300">Backend phases completed</p>
+              </div>
+
+              <div className="rounded-2xl bg-slate-800 p-5">
+                <p className="text-2xl font-bold text-cyan-300">RBAC</p>
+                <p className="text-sm text-slate-300">Role-based access control</p>
+              </div>
+
+              <div className="rounded-2xl bg-slate-800 p-5">
+                <p className="text-2xl font-bold text-cyan-300">Ledger</p>
+                <p className="text-sm text-slate-300">Double-entry accounting</p>
+              </div>
+
+              <div className="rounded-2xl bg-slate-800 p-5">
+                <p className="text-2xl font-bold text-cyan-300">POS</p>
+                <p className="text-sm text-slate-300">Sales and inventory</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-800 bg-white p-8 text-slate-950 shadow-2xl">
+            <h2 className="mb-2 text-2xl font-bold">Sign in</h2>
+
+            <p className="mb-6 text-sm text-slate-600">
+              Use the admin account created in the backend.
+            </p>
+
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div>
+                <label className="mb-2 block text-sm font-semibold">
+                  Username
+                </label>
+                <input
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-cyan-500"
+                  placeholder="rbacadmin"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-semibold">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-cyan-500"
+                  placeholder="admin123"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-xl bg-cyan-600 px-4 py-3 font-bold text-white hover:bg-cyan-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+              >
+                {loading ? 'Signing in...' : 'Login to dashboard'}
+              </button>
+            </form>
+
+            {error && (
+              <div className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            {userData?.user && (
+              <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                <p className="font-bold text-emerald-800">
+                  Login successful
+                </p>
+                <p className="mt-2 text-sm text-emerald-700">
+                  Username: {userData.user.username}
+                </p>
+                <p className="text-sm text-emerald-700">
+                  Role: {userData.user.role}
+                </p>
+                <p className="text-sm text-emerald-700">
+                  Status: {userData.user.status}
+                </p>
+              </div>
+            )}
+
+            {token && (
+              <p className="mt-4 break-all rounded-xl bg-slate-100 p-3 text-xs text-slate-600">
+                Token received from backend successfully.
+              </p>
+            )}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
