@@ -290,3 +290,15 @@ The pipeline checks:
 - Python ML service dependency installation
 - Python ML service import check
 - Secret environment file protection check
+
+## Swagger API Documentation
+
+The backend includes Swagger/OpenAPI documentation.
+
+Run the backend and open:
+
+http://localhost:3000/api-docs
+
+Documentation file:
+
+- docs/SWAGGER_API_DOCUMENTATION.md
