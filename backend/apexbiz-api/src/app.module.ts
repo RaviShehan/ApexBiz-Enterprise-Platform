@@ -13,6 +13,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { WalletsModule } from './wallets/wallets.module';
 import { PosSalesModule } from './pos-sales/pos-sales.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { AccountingModule } from './accounting/accounting.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { InventoryModule } from './inventory/inventory.module';
     ProductsModule,
     PosSalesModule,
     InventoryModule,
+    AccountingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
