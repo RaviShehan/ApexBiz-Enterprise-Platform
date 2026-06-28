@@ -508,3 +508,24 @@ In production, the backend fails safely if required environment variables are mi
 Documentation:
 
 - docs/PRODUCTION_ENVIRONMENT.md
+
+
+## Production Docker Setup
+
+ApexBiz includes a production-style Docker setup with:
+
+- Next.js frontend container
+- NestJS backend container
+- Python FastAPI ML service container
+- PostgreSQL database
+- Redis cache
+- RabbitMQ message broker
+- Nginx reverse proxy
+
+Docker documentation:
+
+- docs/PRODUCTION_DOCKER_SETUP.md
+
+Production compose file:
+
+- docker-compose.prod.yml

@@ -111,3 +111,26 @@ test("production environment validation exists", () => {
   assert.match(envValidation, /JWT_SECRET/);
   assert.match(envValidation, /REFRESH_TOKEN_SECRET/);
 });
+
+
+test("production docker setup exists", () => {
+  assert.equal(fileExists("backend/apexbiz-api/Dockerfile"), true);
+  assert.equal(fileExists("backend/apexbiz-api/.dockerignore"), true);
+  assert.equal(fileExists("frontend/Dockerfile"), true);
+  assert.equal(fileExists("frontend/.dockerignore"), true);
+  assert.equal(fileExists("ml-service/Dockerfile"), true);
+  assert.equal(fileExists("ml-service/.dockerignore"), true);
+  assert.equal(fileExists("docker-compose.prod.yml"), true);
+  assert.equal(fileExists("infra/nginx/nginx.prod.conf"), true);
+  assert.equal(fileExists(".env.production.example"), true);
+  assert.equal(fileExists("docs/PRODUCTION_DOCKER_SETUP.md"), true);
+
+  const composeFile = readFile("docker-compose.prod.yml");
+  assert.match(composeFile, /postgres/);
+  assert.match(composeFile, /redis/);
+  assert.match(composeFile, /rabbitmq/);
+  assert.match(composeFile, /backend/);
+  assert.match(composeFile, /frontend/);
+  assert.match(composeFile, /ml-service/);
+  assert.match(composeFile, /nginx/);
+});
