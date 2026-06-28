@@ -6,6 +6,7 @@ import { StatCard } from '../components/StatCard';
 import { ProductsTable } from '../components/ProductsTable';
 import { InventoryMovementsTable } from '../components/InventoryMovementsTable';
 import { PosSalesTable } from '../components/PosSalesTable';
+import { AuditLogsDashboard } from '../components/AuditLogsDashboard';
 import { CreateProductForm } from '../components/CreateProductForm';
 import { UpdateProductForm } from '../components/UpdateProductForm';
 import { InventoryActionForm } from '../components/InventoryActionForm';
@@ -34,7 +35,7 @@ type DashboardData = {
   ledgerSummary: any;
 };
 
-type ActiveSection = 'overview' | 'products' | 'pos' | 'inventory' | 'accounting';
+type ActiveSection = 'overview' | 'products' | 'pos' | 'inventory' | 'accounting' | 'security';
 
 export default function Home() {
   const [username, setUsername] = useState('rbacadmin');
@@ -164,7 +165,6 @@ export default function Home() {
 
                     try {
                       await loadDashboardData(token);
-                      setRefreshMessage(`Last refreshed at ${new Date().toLocaleTimeString()}`);
                     } catch (err) {
                       setError(err instanceof Error ? err.message : 'Refresh failed');
                     } finally {
@@ -414,9 +414,18 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
+    
+          {activeSection === 'security' && (
+            <SectionCard title="Security Audit Logs">
+              <AuditLogsDashboard token={token} />
+            </SectionCard>
+          )}
+</main>
   );
 }
+
+
+
 
 
 
