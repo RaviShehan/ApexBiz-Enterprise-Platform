@@ -27,11 +27,37 @@ export function CreatePosSaleForm({
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
+  const selectedProduct = products.find((product) => product.id === productId);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSaving(true);
     setMessage('');
     setError('');
+
+    if (!selectedProduct) {
+      setError('Please select a product');
+      setSaving(false);
+      return;
+    }
+
+    if (selectedProduct.status !== 'ACTIVE') {
+      setError('This product is inactive and cannot be sold');
+      setSaving(false);
+      return;
+    }
+
+    if (Number(quantity) <= 0) {
+      setError('Quantity must be greater than 0');
+      setSaving(false);
+      return;
+    }
+
+    if (Number(quantity) > selectedProduct.stockQuantity) {
+      setError(`Only ${selectedProduct.stockQuantity} items available in stock`);
+      setSaving(false);
+      return;
+    }
 
     try {
       await apiRequest(
@@ -81,7 +107,7 @@ export function CreatePosSaleForm({
           >
             {products.map((product) => (
               <option key={product.id} value={product.id}>
-                {product.name} - Stock {product.stockQuantity}
+                {product.name} - Stock {product.stockQuantity} - {product.status}
               </option>
             ))}
           </select>
@@ -111,6 +137,14 @@ export function CreatePosSaleForm({
           </select>
         </label>
       </div>
+
+      {selectedProduct && (
+        <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900 p-4 text-sm text-slate-300">
+          <p>Selected product: {selectedProduct.name}</p>
+          <p>Available stock: {selectedProduct.stockQuantity}</p>
+          <p>Status: {selectedProduct.status}</p>
+        </div>
+      )}
 
       <button
         type="submit"

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { SectionCard } from '../components/SectionCard';
 import { StatCard } from '../components/StatCard';
 import { CreateProductForm } from '../components/CreateProductForm';
+import { UpdateProductForm } from '../components/UpdateProductForm';
 import { InventoryActionForm } from '../components/InventoryActionForm';
 import { CreatePosSaleForm } from '../components/CreatePosSaleForm';
 import { apiRequest } from '../lib/api';
@@ -233,6 +234,14 @@ export default function Home() {
                   }}
                 />
               )}
+
+              <UpdateProductForm
+                token={token}
+                products={dashboardData.products}
+                onSuccess={async () => {
+                  await loadDashboardData(token);
+                }}
+              />
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
@@ -467,6 +476,8 @@ export default function Home() {
     </main>
   );
 }
+
+
 
 
 
