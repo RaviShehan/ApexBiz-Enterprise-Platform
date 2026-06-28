@@ -217,3 +217,6 @@ Developed as a full-stack software engineering portfolio project.
 
 - docs/OWASP_SECURITY_TESTING_REPORT.md
 - docs/SECURITY_TEST_CASES.md
+
+- docs/PENETRATION_TESTING_REPORT.md
+- docs/PENTEST_CHECKLIST.md
