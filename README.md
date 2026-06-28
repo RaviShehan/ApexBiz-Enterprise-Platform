@@ -313,3 +313,17 @@ This project includes ADRs to explain key software architecture decisions.
 - docs/adr/0004-use-separate-ml-service.md
 - docs/adr/0005-use-jwt-authentication.md
 - docs/adr/0006-use-audit-hash-chain.md
+
+## Architecture Planning Documents
+
+Additional software architect-level documentation:
+
+- docs/SCALABILITY_PLAN.md
+- docs/CACHING_STRATEGY.md
+- docs/OBSERVABILITY.md
+- docs/BACKUP_AND_RECOVERY.md
+- docs/DATABASE_PERFORMANCE.md
+- docs/CLOUD_DEPLOYMENT_PLAN.md
+- docs/MULTI_TENANT_DESIGN.md
+- docs/ARCHITECTURE_TRADEOFFS.md
+- docs/NON_FUNCTIONAL_REQUIREMENTS.md
