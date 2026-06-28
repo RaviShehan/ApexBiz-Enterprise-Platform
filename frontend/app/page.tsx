@@ -3,6 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { SectionCard } from '../components/SectionCard';
 import { StatCard } from '../components/StatCard';
+import { CreateProductForm } from '../components/CreateProductForm';
+import { InventoryActionForm } from '../components/InventoryActionForm';
+import { CreatePosSaleForm } from '../components/CreatePosSaleForm';
 import { apiRequest } from '../lib/api';
 import { formatMoney } from '../lib/format';
 
@@ -38,6 +41,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<ActiveSection>('overview');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   async function loadDashboardData(accessToken: string) {
     const [
@@ -149,12 +153,33 @@ export default function Home() {
             <div className="text-right">
               <p className="font-semibold">{user.username}</p>
               <p className="text-sm text-slate-400">{user.role}</p>
-              <button
-                onClick={handleLogout}
-                className="mt-2 rounded-lg bg-slate-800 px-4 py-2 text-sm hover:bg-slate-700"
-              >
-                Logout
-              </button>
+              <div className="mt-2 flex gap-2">
+                <button
+                  onClick={async () => {
+                    setRefreshing(true);
+
+                    try {
+                      await loadDashboardData(token);
+                      setRefreshMessage(`Last refreshed at ${new Date().toLocaleTimeString()}`);
+                    } catch (err) {
+                      setError(err instanceof Error ? err.message : 'Refresh failed');
+                    } finally {
+                      setRefreshing(false);
+                    }
+                  }}
+                  disabled={refreshing}
+                  className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-cyan-400 disabled:bg-slate-600"
+                >
+                  {refreshing ? 'Refreshing...' : 'Refresh'}
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="rounded-lg bg-slate-800 px-4 py-2 text-sm hover:bg-slate-700"
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </header>
@@ -199,6 +224,16 @@ export default function Home() {
 
           {activeSection === 'products' && (
             <SectionCard title="Products">
+              {dashboardData.businesses[0]?.id && (
+                <CreateProductForm
+                  token={token}
+                  businessId={dashboardData.businesses[0].id}
+                  onSuccess={async () => {
+                    await loadDashboardData(token);
+                  }}
+                />
+              )}
+
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead className="text-slate-400">
@@ -228,6 +263,19 @@ export default function Home() {
 
           {activeSection === 'pos' && (
             <SectionCard title="POS Sales">
+              {dashboardData.businesses[0]?.id && dashboardData.branches[0]?.id && (
+                <CreatePosSaleForm
+                  token={token}
+                  businessId={dashboardData.businesses[0].id}
+                  branchId={dashboardData.branches[0].id}
+                  cashierId={user.id}
+                  products={dashboardData.products}
+                  onSuccess={async () => {
+                    await loadDashboardData(token);
+                  }}
+                />
+              )}
+
               <div className="space-y-3">
                 {dashboardData.posSales.map((sale) => (
                   <div
@@ -253,6 +301,19 @@ export default function Home() {
 
           {activeSection === 'inventory' && (
             <SectionCard title="Inventory Movements">
+              {dashboardData.businesses[0]?.id && dashboardData.branches[0]?.id && (
+                <InventoryActionForm
+                  token={token}
+                  businessId={dashboardData.businesses[0].id}
+                  branchId={dashboardData.branches[0].id}
+                  createdById={user.id}
+                  products={dashboardData.products}
+                  onSuccess={async () => {
+                    await loadDashboardData(token);
+                  }}
+                />
+              )}
+
               <div className="space-y-3">
                 {dashboardData.inventoryMovements.map((movement) => (
                   <div
@@ -406,3 +467,15 @@ export default function Home() {
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
