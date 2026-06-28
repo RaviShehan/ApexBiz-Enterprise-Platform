@@ -1,0 +1,9 @@
+{
+  "name": "apexbiz-enterprise-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:architecture": "node --test tests/project-architecture.test.js",
+    "test": "node --test tests/*.test.js"
+  }
+}
