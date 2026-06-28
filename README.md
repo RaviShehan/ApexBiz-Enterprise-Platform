@@ -302,3 +302,14 @@ http://localhost:3000/api-docs
 Documentation file:
 
 - docs/SWAGGER_API_DOCUMENTATION.md
+
+## Architecture Decision Records
+
+This project includes ADRs to explain key software architecture decisions.
+
+- docs/adr/0001-use-nestjs-backend.md
+- docs/adr/0002-use-postgresql.md
+- docs/adr/0003-use-prisma-orm.md
+- docs/adr/0004-use-separate-ml-service.md
+- docs/adr/0005-use-jwt-authentication.md
+- docs/adr/0006-use-audit-hash-chain.md
