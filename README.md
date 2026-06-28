@@ -277,3 +277,16 @@ Cybersecurity features include:
 
 - docs/SYSTEM_ARCHITECTURE_DIAGRAMS.md
 - docs/SYSTEM_DESIGN.md
+
+## CI/CD Pipeline
+
+This project includes a GitHub Actions CI pipeline.
+
+The pipeline checks:
+
+- Backend NestJS build
+- Prisma client generation
+- Frontend Next.js build
+- Python ML service dependency installation
+- Python ML service import check
+- Secret environment file protection check
