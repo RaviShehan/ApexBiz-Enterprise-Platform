@@ -28,7 +28,8 @@ model User {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
-  posSales PosSale[]
+  posSales           PosSale[]
+  inventoryMovements InventoryMovement[]
 
   @@map("users")
 }
@@ -55,10 +56,11 @@ model Business {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 
-  branches Branch[]
-  wallets  Wallet[]
-  products Product[]
-  posSales PosSale[]
+  branches           Branch[]
+  wallets            Wallet[]
+  products           Product[]
+  posSales           PosSale[]
+  inventoryMovements InventoryMovement[]
 
   @@map("businesses")
 }
@@ -74,9 +76,10 @@ model Branch {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
-  business Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  wallets  Wallet[]
-  posSales PosSale[]
+  business           Business            @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  wallets            Wallet[]
+  posSales           PosSale[]
+  inventoryMovements InventoryMovement[]
 
   @@map("branches")
 }
@@ -236,8 +239,9 @@ model Product {
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 
-  business  Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  saleItems PosSaleItem[]
+  business           Business            @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  saleItems          PosSaleItem[]
+  inventoryMovements InventoryMovement[]
 
   @@map("products")
 }
@@ -280,4 +284,35 @@ model PosSaleItem {
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("pos_sale_items")
+}
+
+enum InventoryMovementType {
+  STOCK_IN
+  STOCK_OUT
+  ADJUSTMENT
+  SALE
+  RETURN
+  DAMAGE
+}
+
+model InventoryMovement {
+  id             String                @id @default(uuid())
+  reference      String                @unique
+  type           InventoryMovementType
+  productId      String
+  businessId     String
+  branchId       String?
+  createdById    String
+  quantityChange Int
+  stockBefore    Int
+  stockAfter     Int
+  reason         String?
+  createdAt      DateTime              @default(now())
+
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  business  Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  branch    Branch?  @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  createdBy User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@map("inventory_movements")
 }

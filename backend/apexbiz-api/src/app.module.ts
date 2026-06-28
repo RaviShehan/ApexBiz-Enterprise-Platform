@@ -12,6 +12,7 @@ import { ProductsModule } from './products/products.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { WalletsModule } from './wallets/wallets.module';
 import { PosSalesModule } from './pos-sales/pos-sales.module';
+import { InventoryModule } from './inventory/inventory.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PosSalesModule } from './pos-sales/pos-sales.module';
     TransactionsModule,
     ProductsModule,
     PosSalesModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
