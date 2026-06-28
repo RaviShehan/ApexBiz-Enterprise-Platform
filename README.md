@@ -272,3 +272,8 @@ Cybersecurity features include:
 ## Additional Architect Documentation
 
 - docs/SOFTWARE_ARCHITECT_PORTFOLIO.md
+
+## System Architecture Documentation
+
+- docs/SYSTEM_ARCHITECTURE_DIAGRAMS.md
+- docs/SYSTEM_DESIGN.md
