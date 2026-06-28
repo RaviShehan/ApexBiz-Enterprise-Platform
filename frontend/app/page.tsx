@@ -7,6 +7,7 @@ import { ProductsTable } from '../components/ProductsTable';
 import { InventoryMovementsTable } from '../components/InventoryMovementsTable';
 import { PosSalesTable } from '../components/PosSalesTable';
 import { AuditLogsDashboard } from '../components/AuditLogsDashboard';
+import { MlInsightsDashboard } from '../components/MlInsightsDashboard';
 import { CreateProductForm } from '../components/CreateProductForm';
 import { UpdateProductForm } from '../components/UpdateProductForm';
 import { InventoryActionForm } from '../components/InventoryActionForm';
@@ -35,7 +36,7 @@ type DashboardData = {
   ledgerSummary: any;
 };
 
-type ActiveSection = 'overview' | 'products' | 'pos' | 'inventory' | 'accounting' | 'security';
+type ActiveSection = 'overview' | 'products' | 'pos' | 'inventory' | 'accounting' | 'security' | 'ml-insights';
 
 export default function Home() {
   const [username, setUsername] = useState('rbacadmin');
@@ -420,9 +421,16 @@ export default function Home() {
               <AuditLogsDashboard token={token} />
             </SectionCard>
           )}
+
+          {activeSection === 'ml-insights' && (
+            <SectionCard title="Data Science / ML Insights">
+              <MlInsightsDashboard token={token} />
+            </SectionCard>
+          )}
 </main>
   );
 }
+
 
 
 
