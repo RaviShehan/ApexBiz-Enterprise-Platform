@@ -164,3 +164,16 @@ test("authentication hardening exists", () => {
   assert.match(service, /sha256/);
   assert.match(service, /bcrypt/);
 });
+
+
+test("tenant security foundation exists", () => {
+  assert.equal(fileExists("backend/apexbiz-api/src/tenant-security/tenant-security.service.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/tenant-security/tenant-security.module.ts"), true);
+  assert.equal(fileExists("docs/MULTI_TENANT_SECURITY_IMPLEMENTATION.md"), true);
+
+  const service = readFile("backend/apexbiz-api/src/tenant-security/tenant-security.service.ts");
+  assert.match(service, /assertUserCanAccessBusiness/);
+  assert.match(service, /assertUserCanAccessBranch/);
+  assert.match(service, /assertUserCanAccessProduct/);
+  assert.match(service, /assertUserCanAccessPosSale/);
+});

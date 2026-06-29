@@ -561,3 +561,19 @@ ApexBiz includes production-style authentication hardening:
 Documentation:
 
 - docs/AUTHENTICATION_HARDENING.md
+
+
+## Strong Multi-Tenant Security
+
+ApexBiz includes a tenant security foundation for production multi-tenant access control.
+
+Current safe rule:
+
+- ADMIN can access platform-level data.
+- Non-admin users are denied by default until a full BusinessMembership model is implemented.
+
+This is fail-closed security. It is safer than accidentally allowing cross-business data access.
+
+Documentation:
+
+- docs/MULTI_TENANT_SECURITY_IMPLEMENTATION.md
