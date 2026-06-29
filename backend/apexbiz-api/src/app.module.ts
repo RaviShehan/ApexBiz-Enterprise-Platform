@@ -1,9 +1,11 @@
+import { validateEnvironment } from './config/env.validation';
 import { MlInsightsModule } from './ml-insights/ml-insights.module';
 import { RefreshTokensModule } from './refresh-tokens/refresh-tokens.module';
 import { TwoFactorModule } from './two-factor/two-factor.module';
 import { EmailVerificationModule } from './email-verification/email-verification.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
 import { Module } from '@nestjs/common';
+import { EventBusModule } from './event-bus/event-bus.module';
 import { RedisCacheModule } from './cache/redis-cache.module';
 import { ObservabilityModule } from './observability/observability.module';
 import { PasswordResetModule } from './password-reset/password-reset.module';
@@ -25,7 +27,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { AccountingModule } from './accounting/accounting.module';
 
 @Module({
-  imports: [RedisCacheModule, ObservabilityModule, MlInsightsModule, RefreshTokensModule, TwoFactorModule, EmailVerificationModule, AuditLogsModule, 
+  imports: [EventBusModule, RedisCacheModule, ObservabilityModule, MlInsightsModule, RefreshTokensModule, TwoFactorModule, EmailVerificationModule, AuditLogsModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     }),

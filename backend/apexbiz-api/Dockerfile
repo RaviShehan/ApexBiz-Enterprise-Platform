@@ -1,29 +1,19 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
 COPY prisma ./prisma
-RUN npx prisma generate
+
+RUN if [ -d prisma ]; then npx prisma generate; fi
 
 COPY . .
+
 RUN npm run build
-
-FROM node:20-alpine AS runner
-
-WORKDIR /app
-ENV NODE_ENV=production
-
-COPY package*.json ./
-RUN npm ci --omit=dev
-
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+CMD sh -c "if [ -d prisma ]; then npx prisma db push; fi && npm run start:prod"

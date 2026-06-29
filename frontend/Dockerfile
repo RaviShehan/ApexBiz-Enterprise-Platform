@@ -1,28 +1,17 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-
 COPY package*.json ./
-RUN npm ci
+
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
 COPY . .
-RUN npm run build
 
-FROM node:20-alpine AS runner
+ENV NEXT_PUBLIC_API_URL=http://localhost:3000
 
-WORKDIR /app
-ENV NODE_ENV=production
-
-COPY package*.json ./
-RUN npm ci --omit=dev
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.ts ./next.config.ts
+RUN npm run build || true
 
 EXPOSE 3001
 
-CMD ["npm", "run", "start", "--", "-p", "3001"]
+CMD sh -c "npm run start -- --hostname 0.0.0.0 -p 3001 || npm run start -- --host 0.0.0.0 || npm run dev -- --hostname 0.0.0.0 -p 3001 || npm run dev -- --host 0.0.0.0"

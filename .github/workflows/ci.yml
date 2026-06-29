@@ -126,3 +126,20 @@ jobs:
 
       - name: Check FastAPI app imports
         run: python -c "from app import app; print('ML service import successful')"
+
+
+  production-readiness-tests:
+    name: Production Readiness Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run production readiness tests
+        run: npm run test:production-readiness
