@@ -148,3 +148,45 @@ test("redis caching implementation exists", () => {
   const envValidation = readFile("backend/apexbiz-api/src/config/env.validation.ts");
   assert.match(envValidation, /REDIS_URL/);
 });
+
+
+test("rabbitmq event bus implementation exists", () => {
+  assert.equal(fileExists("backend/apexbiz-api/src/event-bus/event-bus.service.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/event-bus/event-bus.module.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/event-bus/event-bus-health.controller.ts"), true);
+  assert.equal(fileExists("docs/RABBITMQ_EVENT_BUS_IMPLEMENTATION.md"), true);
+
+  const eventBusService = readFile("backend/apexbiz-api/src/event-bus/event-bus.service.ts");
+  assert.match(eventBusService, /amqplib/);
+  assert.match(eventBusService, /apexbiz.events/);
+  assert.match(eventBusService, /publishPosSaleCreated/);
+  assert.match(eventBusService, /publishInventoryStockChanged/);
+  assert.match(eventBusService, /publishAuditLogCreated/);
+  assert.match(eventBusService, /publishMlInsightsRequested/);
+
+  const eventBusController = readFile("backend/apexbiz-api/src/event-bus/event-bus-health.controller.ts");
+  assert.match(eventBusController, /event-bus/);
+  assert.match(eventBusController, /health/);
+  assert.match(eventBusController, /demo-event/);
+
+  const envValidation = readFile("backend/apexbiz-api/src/config/env.validation.ts");
+  assert.match(envValidation, /RABBITMQ_URL/);
+});
+
+
+test("cloud deployment readiness exists", () => {
+  assert.equal(fileExists("scripts/deploy/production-health-check.ps1"), true);
+  assert.equal(fileExists("docs/CLOUD_DEPLOYMENT_READINESS.md"), true);
+  assert.equal(fileExists("docs/PRODUCTION_DEPLOYMENT_RUNBOOK.md"), true);
+
+  const healthScript = readFile("scripts/deploy/production-health-check.ps1");
+  assert.match(healthScript, /Backend Health/);
+  assert.match(healthScript, /Backend Readiness/);
+  assert.match(healthScript, /Backend Metrics/);
+  assert.match(healthScript, /Swagger API Docs/);
+  assert.match(healthScript, /ML Service Health/);
+
+  const runbook = readFile("docs/PRODUCTION_DEPLOYMENT_RUNBOOK.md");
+  assert.match(runbook, /Rollback Plan/);
+  assert.match(runbook, /Post-Deployment Verification/);
+});

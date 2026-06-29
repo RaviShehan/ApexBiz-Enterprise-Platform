@@ -643,3 +643,44 @@ Cache endpoint:
 Documentation:
 
 - docs/REDIS_CACHING_IMPLEMENTATION.md
+
+
+## RabbitMQ Event Bus Implementation
+
+ApexBiz includes RabbitMQ event bus support for production event-driven architecture.
+
+RabbitMQ features:
+
+- RabbitMQ event bus service
+- durable topic exchange
+- JSON event publishing
+- event helper methods
+- event bus health endpoint
+- demo event publishing endpoint
+- RABBITMQ_URL production validation
+
+Event bus endpoints:
+
+- GET /event-bus/health
+- POST /event-bus/demo-event
+
+Documentation:
+
+- docs/RABBITMQ_EVENT_BUS_IMPLEMENTATION.md
+
+
+## Cloud Deployment Readiness
+
+ApexBiz includes cloud deployment readiness documentation and production verification scripts.
+
+Deployment files:
+
+- docker-compose.prod.yml
+- .env.production.example
+- scripts/deploy/production-health-check.ps1
+- docs/CLOUD_DEPLOYMENT_READINESS.md
+- docs/PRODUCTION_DEPLOYMENT_RUNBOOK.md
+
+Production verification command:
+
+powershell -ExecutionPolicy Bypass -File scripts/deploy/production-health-check.ps1
