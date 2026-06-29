@@ -3,11 +3,14 @@ import { rateLimitMiddleware } from './security/rate-limit.middleware';
 import { securityHeadersMiddleware } from './security/security-headers.middleware';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { productionObservabilityMiddleware } from './observability/production-observability.middleware';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(productionObservabilityMiddleware);
   app.use(securityHeadersMiddleware);
   app.use(rateLimitMiddleware);
   app.use(auditLogMiddleware);

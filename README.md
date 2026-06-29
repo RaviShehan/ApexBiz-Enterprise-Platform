@@ -577,3 +577,46 @@ This is fail-closed security. It is safer than accidentally allowing cross-busin
 Documentation:
 
 - docs/MULTI_TENANT_SECURITY_IMPLEMENTATION.md
+
+
+## Production Readiness Testing
+
+ApexBiz includes production readiness tests.
+
+Run:
+
+npm run test:production-readiness
+
+Run all tests:
+
+npm run test:all
+
+Testing documentation:
+
+- docs/PRODUCTION_READINESS_TESTING.md
+
+
+## Observability Implementation
+
+ApexBiz includes production-style observability features:
+
+- request ID generation
+- x-request-id response header
+- structured JSON request logs
+- request duration tracking
+- liveness health endpoint
+- readiness health endpoint
+- database readiness check
+- ML service readiness check
+- Prometheus-style metrics endpoint
+
+Observability endpoints:
+
+- GET /health
+- GET /health/liveness
+- GET /health/readiness
+- GET /metrics
+
+Documentation:
+
+- docs/OBSERVABILITY_IMPLEMENTATION.md
