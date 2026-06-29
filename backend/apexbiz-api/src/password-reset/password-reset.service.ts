@@ -137,7 +137,7 @@ export class PasswordResetService {
     await this.prisma.user.update({
       where: { id: user.id },
       data: {
-        password: passwordHash,
+        passwordHash: passwordHash,
         passwordResetTokenHash: null,
         passwordResetTokenExpiresAt: null,
       },

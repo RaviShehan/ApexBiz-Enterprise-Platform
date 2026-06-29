@@ -620,3 +620,26 @@ Observability endpoints:
 Documentation:
 
 - docs/OBSERVABILITY_IMPLEMENTATION.md
+
+
+## Redis Caching Implementation
+
+ApexBiz includes Redis caching support for production performance.
+
+Redis caching features:
+
+- Redis cache service
+- JSON get/set helpers
+- TTL support
+- cache health endpoint
+- delete by key
+- delete by pattern
+- REDIS_URL production validation
+
+Cache endpoint:
+
+- GET /cache/health
+
+Documentation:
+
+- docs/REDIS_CACHING_IMPLEMENTATION.md

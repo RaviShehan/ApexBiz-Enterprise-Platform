@@ -126,3 +126,25 @@ test("observability implementation exists", () => {
   assert.match(middleware, /x-request-id/);
   assert.match(middleware, /durationMs/);
 });
+
+
+test("redis caching implementation exists", () => {
+  assert.equal(fileExists("backend/apexbiz-api/src/cache/redis-cache.service.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/cache/redis-cache.module.ts"), true);
+  assert.equal(fileExists("backend/apexbiz-api/src/cache/cache-health.controller.ts"), true);
+  assert.equal(fileExists("docs/REDIS_CACHING_IMPLEMENTATION.md"), true);
+
+  const cacheService = readFile("backend/apexbiz-api/src/cache/redis-cache.service.ts");
+  assert.match(cacheService, /ioredis/);
+  assert.match(cacheService, /getJson/);
+  assert.match(cacheService, /setJson/);
+  assert.match(cacheService, /ttlSeconds/);
+  assert.match(cacheService, /deleteByPattern/);
+
+  const cacheController = readFile("backend/apexbiz-api/src/cache/cache-health.controller.ts");
+  assert.match(cacheController, /cache/);
+  assert.match(cacheController, /health/);
+
+  const envValidation = readFile("backend/apexbiz-api/src/config/env.validation.ts");
+  assert.match(envValidation, /REDIS_URL/);
+});
